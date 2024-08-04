@@ -29,6 +29,30 @@ module.exports = {
                 .addStringOption(option =>
                     option.setName('reason')
                         .setDescription('The reason for the mute')
+                        .setRequired(false)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('kick')
+                .setDescription('Kick a user from the server')
+                .addUserOption(option =>
+                    option.setName('target')
+                        .setDescription('The user to kick')
+                        .setRequired(true))
+                .addStringOption(option =>
+                    option.setName('reason')
+                        .setDescription('The reason for the kick')
+                        .setRequired(false)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('ban')
+                .setDescription('Ban a user from the server')
+                .addUserOption(option =>
+                    option.setName('target')
+                        .setDescription('The user to ban')
+                        .setRequired(true))
+                .addStringOption(option =>
+                    option.setName('reason')
+                        .setDescription('The reason for the ban')
                         .setRequired(false))),
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
