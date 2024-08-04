@@ -48,28 +48,28 @@ module.exports = async (client) => {
 //    }, 15000);
 
     // Node status embed
-if (config.Enabled.NodeStats) {
-    let channel = client.channels.cache.get("1250043911276199957");
-    setInterval(async () => {
-        try {
-            let embed = await nstatus.getEmbed();
+//if (config.Enabled.NodeStats) {
+//    let channel = client.channels.cache.get("1250043911276199957");
+//    setInterval(async () => {
+//        try {
+//            let embed = await nstatus.getEmbed();
 
             // Ensure the embed has a description before sending or editing
-            if (embed && embed.data && embed.data.description && embed.data.description.trim()) {
-                let messages = await channel.messages.fetch({ limit: 10 });
+//            if (embed && embed.data && embed.data.description && embed.data.description.trim()) {
+//                let messages = await channel.messages.fetch({ limit: 10 });
 
-                messages = messages.filter((x) => x.author.id === client.user.id).last();
-                if (messages == null) {
-                    channel.send({ embeds: [embed] });
-                } else {
-                    messages.edit({ embeds: [embed] });
-                }
-            } else {
-                console.error('Embed has no description, not sending the message.');
-            }
-        } catch (error) {
-            console.error('Error fetching or sending embed:', error);
-        }
-    }, 15000);
-}
-};
+//                messages = messages.filter((x) => x.author.id === client.user.id).last();
+//                if (messages == null) {
+//                    channel.send({ embeds: [embed] });
+//               } else {
+//                   messages.edit({ embeds: [embed] });
+//                }
+//            } else {
+//                console.error('Embed has no description, not sending the message.');
+//            }
+//        } catch (error) {
+//            console.error('Error fetching or sending embed:', error);
+//        }
+//    }, 15000);
+//}
+}//;
