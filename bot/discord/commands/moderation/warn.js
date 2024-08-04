@@ -1,11 +1,9 @@
 const { PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-const ms = require('ms');
 
 module.exports = {
   async execute(interaction) {
     const target = interaction.options.getUser('target');
     const member = await interaction.guild.members.fetch(target.id);
-    const duration = interaction.options.getString('duration');
     const reason = interaction.options.getString('reason') || 'No reason provided';
 
     if (!interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers)) {
@@ -17,30 +15,21 @@ module.exports = {
     }
 
     try {
-        const durationMs = ms(duration);
-        const endTime = new Date(Date.now() + durationMs).toLocaleString();
-
-        await member.timeout(durationMs, reason);
-
         const embed = new EmbedBuilder()
-            .setColor('Red')
-            .setTitle('User Muted')
+            .setColor('Yellow')
+            .setTitle('User Warned')
             .addFields(
                 { name: 'User', value: `${member.user.tag}`, inline: true },
-                { name: 'Duration', value: `${ms(durationMs, { long: true })}`, inline: true },
                 { name: 'Reason', value: reason, inline: true },
-                { name: 'End Time', value: endTime, inline: true },
                 { name: 'Moderator', value: interaction.user.tag, inline: true }
             )
             .setTimestamp();
 
         const dmEmbed = new EmbedBuilder()
-            .setColor('Red')
-            .setTitle('You have been muted in BSSR Nodes')
+            .setColor('Yellow')
+            .setTitle('You have been warned in BSSR Nodes')
             .addFields(
-                { name: 'Duration', value: `${ms(durationMs, { long: true })}`, inline: true },
                 { name: 'Reason', value: reason, inline: true },
-                { name: 'End Time', value: endTime, inline: true }
             )
             .setTimestamp();
 
@@ -48,10 +37,9 @@ module.exports = {
         await interaction.reply({ embeds: [embed] });
 
         const moderationEntry = {
-            action: 'Mute',
+            action: 'Warn',
             reason: reason,
             date: new Date().toISOString(),
-            duration: duration,
             moderator: interaction.user.id,
         };
 
@@ -66,7 +54,7 @@ module.exports = {
 
     } catch (error) {
         console.error(error);
-        await interaction.reply({ content: 'An error occurred while trying to mute the user.', ephemeral: true });
+        await interaction.reply({ content: 'An error occurred while trying to warn the user.', ephemeral: true });
     }
   },
 };

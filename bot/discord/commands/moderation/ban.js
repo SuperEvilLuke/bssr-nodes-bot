@@ -7,7 +7,7 @@ module.exports = {
     const reason = interaction.options.getString('reason') || 'No reason provided';
 
     if (!interaction.member.permissions.has(PermissionFlagsBits.BanMembers)) {
-        return interaction.reply({ content: 'You are missing the permission `BanMembers`.', ephemeral: true });
+        return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true });
     }
 
     if (!member) {
@@ -27,6 +27,15 @@ module.exports = {
             )
             .setTimestamp();
 
+        const dmEmbed = new EmbedBuilder()
+            .setColor('Red')
+            .setTitle('You have been banned from BSSR Nodes')
+            .addFields(
+                { name: 'Reason', value: reason, inline: true },
+            )
+            .setTimestamp();
+
+        await member.send({ embeds: [dmEmbed] }).catch(() => null);
         await interaction.reply({ embeds: [embed] });
 
         const moderationEntry = {
@@ -44,6 +53,7 @@ module.exports = {
         if (logChannel) {
             await logChannel.send({ embeds: [embed] });
         }
+
     } catch (error) {
         console.error(error);
         await interaction.reply({ content: 'An error occurred while trying to ban the user.', ephemeral: true });
