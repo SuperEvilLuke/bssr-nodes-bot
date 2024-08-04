@@ -101,10 +101,10 @@ const getEmbed = async () => {
     }
 };
 
-const sendStatusEmbed = async (channel) => {
-    const embed = await getEmbed();
-    channel.send({ embeds: [embed] });
-};
+//const sendStatusEmbed = async (channel) => {
+//    const embed = await getEmbed();
+//    channel.send({ embeds: [embed] });
+//};
 
 module.exports = {
     parse: parse,
