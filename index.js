@@ -169,23 +169,40 @@ client.on('interactionCreate', async interaction => {
 // Bot login
 client.login(config.DiscordBot.Token);
 
-setInterval(async () => {
-    users.length = 0;
-    axios({
-        url: "https://private-panel.bssr-nodes.com/api/application/users?per_page=9999999999999",
-        method: "GET",
-        followRedirect: true,
-        maxRedirects: 5,
-        headers: {
-            Authorization: "Bearer " + config.Pterodactyl.apikey,
-            "Content-Type": "application/json",
-            Accept: "Application/vnd.pterodactyl.v1+json",
-        },
-    })
-        .then((resources) => {
-            users.push(...resources.data.data);
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-}, 10 * 60 * 1000);
+// setInterval(async () => {
+//    users.length = 0;
+//    axios({
+//        url: "https://private-panel.bssr-nodes.com/api/application/users?per_page=9999999999999",
+//        method: "GET",
+//        followRedirect: true,
+//        maxRedirects: 5,
+//        headers: {
+//        Authorization: "Bearer " + config.Pterodactyl.apikey,
+//        "Content-Type": "application/json",
+//        Accept: "Application/vnd.pterodactyl.v1+json",
+//        },
+//    })
+//        .then((resources) => {
+//            users.push(...resources.data.data);
+//        })
+//        .catch((err) => {
+//            console.error(err);
+//        });
+// }, 10 * 60 * 1000);
+
+process.on("unhandledRejection", (reason, p) => {
+    console.log("[AntiCrash] :: Unhandled Rejection/Catch");
+    console.log(reason, p);
+});
+process.on("uncaughtException", (err, origin) => {
+    console.log("[AntiCrash] :: Uncaught Exception/Catch");
+    console.log(err, origin);
+});
+process.on("uncaughtExceptionMonitor", (err, origin) => {
+    console.log("[AntiCrash] :: Uncaught Exception/Catch (MONITOR)");
+    console.log(err, origin);
+});
+process.on("multipleResolves", (type, promise, reason) => {
+    console.log("[AntiCrash] :: Multiple Resolves");
+    console.log(type, promise, reason);
+});
